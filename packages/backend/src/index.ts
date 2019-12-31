@@ -1,1 +1,3 @@
-console.log('hellowlrd')
+const hello = (): null => {
+  return null;
+};
