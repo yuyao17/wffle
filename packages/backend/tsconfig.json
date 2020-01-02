@@ -3,6 +3,8 @@
   "compilerOptions": {
     "outDir": "dist",
     "rootDir": "src",
+    "moduleResolution": "node",
+    "module": "commonjs",
     "strict": true
   },
   "files": ["custom.d.ts"],

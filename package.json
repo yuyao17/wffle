@@ -2,8 +2,18 @@
   "name": "root",
   "private": true,
   "devDependencies": {
+    "@graphql-codegen/cli": "^1.9.1",
+    "@graphql-codegen/typescript-operations": "^1.9.1",
+    "@graphql-codegen/typescript-react-apollo": "^1.9.1",
     "@types/node": "^13.1.1",
+    "graphql": "^14.5.8",
     "lerna": "^3.20.1",
-    "typescript": "^3.7.4"
-  }
+    "typescript": "^3.7.4",
+    "watch": "^1.0.2"
+  },
+  "scripts": {
+    "dev": "watch 'npm run generate' ./packages/backend/src/generated ./packages/frontend/components",
+    "generate": "graphql-codegen --config codegen.yml"
+  },
+  "dependencies": {}
 }

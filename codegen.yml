@@ -1,0 +1,14 @@
+overwrite: true
+schema: "./packages/backend/src/generated/schema.graphql"
+documents: "./packages/frontend/components/**/*.{ts,tsx}"
+generates:
+  packages/frontend/gen-types.ts:
+    plugins:
+      - "typescript"
+      - "typescript-operations"
+      - "typescript-react-apollo"
+    config:
+      withHooks: true
+      skipTypename: false
+      withHOC: false
+      withComponent: false
