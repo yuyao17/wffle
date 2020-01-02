@@ -1,7 +1,5 @@
 ## Development
 
----
-
 ### Bootstrap
 
 1. `lerna bootstrap`
