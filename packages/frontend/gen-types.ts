@@ -1,6 +1,5 @@
 import gql from 'graphql-tag';
 import * as ApolloReactCommon from '@apollo/react-common';
-import * as ApolloReactHooks from '@apollo/react-hooks';
 export type Maybe<T> = T | null;
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
@@ -58,48 +57,24 @@ export type User = {
   password: Scalars['String'],
 };
 
-export type All_UserQueryVariables = {};
+export type AllUserQueryVariables = {};
 
 
-export type All_UserQuery = (
+export type AllUserQuery = (
   { __typename?: 'Query' }
   & { users: Array<(
     { __typename?: 'User' }
-    & Pick<User, 'email' | 'name'>
+    & Pick<User, 'email' | 'id'>
   )> }
 );
 
 
-export const All_UserDocument = gql`
+export const AllUserDocument = gql`
     query ALL_USER {
   users {
     email
-    name
+    id
   }
 }
     `;
-
-/**
- * __useAll_UserQuery__
- *
- * To run a query within a React component, call `useAll_UserQuery` and pass it any options that fit your needs.
- * When your component renders, `useAll_UserQuery` returns an object from Apollo Client that contains loading, error, and data properties 
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useAll_UserQuery({
- *   variables: {
- *   },
- * });
- */
-export function useAll_UserQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<All_UserQuery, All_UserQueryVariables>) {
-        return ApolloReactHooks.useQuery<All_UserQuery, All_UserQueryVariables>(All_UserDocument, baseOptions);
-      }
-export function useAll_UserLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<All_UserQuery, All_UserQueryVariables>) {
-          return ApolloReactHooks.useLazyQuery<All_UserQuery, All_UserQueryVariables>(All_UserDocument, baseOptions);
-        }
-export type All_UserQueryHookResult = ReturnType<typeof useAll_UserQuery>;
-export type All_UserLazyQueryHookResult = ReturnType<typeof useAll_UserLazyQuery>;
-export type All_UserQueryResult = ApolloReactCommon.QueryResult<All_UserQuery, All_UserQueryVariables>;
+export type AllUserQueryResult = ApolloReactCommon.QueryResult<AllUserQuery, AllUserQueryVariables>;

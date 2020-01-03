@@ -19,10 +19,12 @@ module.exports = {
   parser: "@typescript-eslint/parser",
   parserOptions: {
     sourceType: "module",
-    project: "./tsconfig.json"
   },
   rules: {
     "react/react-in-jsx-scope": "off",
-    "@typescript-eslint/explicit-function-return-type": "off"
+    "react/prop-types": "off",
+    "@typescript-eslint/explicit-function-return-type": "off",
+    "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/ban-ts-ignore": "off"
   }
 }

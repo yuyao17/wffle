@@ -16,7 +16,12 @@ const server = new ApolloServer({
 
 app.use(cookieParser());
 
-server.applyMiddleware({ app });
+const corsOptions = {
+  origin: process.env.FRONTEND_URL,
+  credentials: true,
+};
+
+server.applyMiddleware({ app, cors: corsOptions });
 
 app.use((req, res, next) => {
   // TODO: get userId from cookie

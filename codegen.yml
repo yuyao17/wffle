@@ -1,6 +1,6 @@
 overwrite: true
 schema: "./packages/backend/src/generated/schema.graphql"
-documents: "./packages/frontend/components/**/*.{ts,tsx}"
+documents: "./packages/frontend/components/**/*.tsx"
 generates:
   packages/frontend/gen-types.ts:
     plugins:
@@ -8,7 +8,10 @@ generates:
       - "typescript-operations"
       - "typescript-react-apollo"
     config:
-      withHooks: true
+      namingConvention:
+        typeNames: change-case#pascalCase
+        transformUnderscore: true
+      withHooks: false
       skipTypename: false
       withHOC: false
       withComponent: false

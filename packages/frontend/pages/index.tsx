@@ -1,3 +1,5 @@
-const Page = () => <div>Welcome to next.js!</div>;
+import Nav from '../components/Header';
+
+const Page = () => <Nav />;
 
 export default Page;
