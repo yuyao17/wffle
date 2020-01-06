@@ -1,11 +1,13 @@
 require('dotenv').config();
-
-import { ApolloServer } from 'apollo-server-express';
+import http from 'http';
+import { ApolloServer, PubSub } from 'apollo-server-express';
 import express from 'express';
 import cookieParser from 'cookie-parser';
 
 import { schema } from './schema';
 import { createContext } from './context';
+
+export const pubsub = new PubSub();
 
 const app = express();
 
@@ -23,12 +25,17 @@ const corsOptions = {
 
 server.applyMiddleware({ app, cors: corsOptions });
 
+const httpServer = http.createServer(app);
+
+// for subscriptions
+server.installSubscriptionHandlers(httpServer);
+
 app.use((req, res, next) => {
   // TODO: get userId from cookie
   next();
 });
 
-app.listen(
+httpServer.listen(
   {
     port: process.env.PORT,
   },

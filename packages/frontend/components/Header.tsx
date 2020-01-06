@@ -1,11 +1,21 @@
+import React from 'react';
 import Link from 'next/link';
 import gql from 'graphql-tag';
 import { useQuery } from '@apollo/react-hooks';
-import { AllUserQuery } from '../gen-types';
+import { AllUserQuery, AllUserQueryVariables } from '../gen-types';
 
 const ALL_USER = gql`
   query ALL_USER {
     users {
+      email
+      id
+    }
+  }
+`;
+
+const USER_ADDED = gql`
+  subscription userAdded {
+    userAdded {
       email
       id
     }
@@ -18,8 +28,29 @@ const links = [
 ];
 
 export default function Nav() {
-  const { data, loading } = useQuery<AllUserQuery>(ALL_USER);
+  const { data, loading, subscribeToMore } = useQuery<
+    AllUserQuery,
+    AllUserQueryVariables
+  >(ALL_USER);
+
   if (loading) return <div>Loading..</div>;
+
+  React.useEffect(() => {
+    subscribeToMore({
+      document: USER_ADDED,
+      // casting subscriptionData as any since somehow expects subscriptionData.data to be of the query's interface, not the subscription's interface
+      updateQuery: (prev, { subscriptionData }: any) => {
+        if (!subscriptionData.data) return prev;
+
+        const newUser = subscriptionData.data.userAdded;
+
+        return {
+          ...prev,
+          users: [...prev.users, newUser],
+        };
+      },
+    });
+  }, []);
 
   return (
     <nav>

@@ -1,6 +1,17 @@
-import { makeSchema, objectType, fieldAuthorizePlugin, stringArg } from 'nexus';
+import {
+  makeSchema,
+  objectType,
+  fieldAuthorizePlugin,
+  stringArg,
+  queryType,
+  mutationType,
+  subscriptionField,
+} from 'nexus';
 import { nexusPrismaPlugin } from 'nexus-prisma';
 import { hash, compare } from 'bcryptjs';
+import { pubsub } from './index';
+
+const USER_ADDED = 'USER_ADDED';
 
 const User = objectType({
   name: 'User',
@@ -12,11 +23,9 @@ const User = objectType({
   },
 });
 
-const Query = objectType({
-  name: 'Query',
+const Query = queryType({
   definition(t) {
     t.crud.users();
-
     t.list.field('filterUser', {
       type: 'User',
       args: {
@@ -35,9 +44,10 @@ const Query = objectType({
   },
 });
 
-const Mutation = objectType({
-  name: 'Mutation',
+const Mutation = mutationType({
   definition(t) {
+    t.crud.deleteManyUser();
+
     t.field('changePassword', {
       type: 'User',
       args: {
@@ -78,17 +88,28 @@ const Mutation = objectType({
       },
       resolve: async (_, { email, password }, ctx) => {
         const hashedPass = await hash(password, 10);
-
-        return ctx.photon.users.create({
+        const user = await ctx.photon.users.create({
           data: { email, password: hashedPass },
         });
+        pubsub.publish(USER_ADDED, user);
+        return user;
       },
     });
   },
 });
 
+const userAdded = subscriptionField('userAdded', {
+  type: 'User',
+  subscribe: () => {
+    return pubsub.asyncIterator([USER_ADDED]);
+  },
+  resolve: payload => {
+    return payload;
+  },
+});
+
 export const schema = makeSchema({
-  types: [Query, Mutation, User],
+  types: [Query, Mutation, userAdded, User],
   plugins: [nexusPrismaPlugin(), fieldAuthorizePlugin()],
   outputs: {
     schema: __dirname + '/generated/schema.graphql',

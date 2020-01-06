@@ -20,14 +20,61 @@ declare global {
 }
 
 export interface NexusGenInputs {
+  IntFilter: { // input type
+    equals?: number | null; // Int
+    gt?: number | null; // Int
+    gte?: number | null; // Int
+    in?: number[] | null; // [Int!]
+    lt?: number | null; // Int
+    lte?: number | null; // Int
+    not?: number | null; // Int
+    notIn?: number[] | null; // [Int!]
+  }
+  NullableStringFilter: { // input type
+    contains?: string | null; // String
+    endsWith?: string | null; // String
+    equals?: string | null; // String
+    gt?: string | null; // String
+    gte?: string | null; // String
+    in?: string[] | null; // [String!]
+    lt?: string | null; // String
+    lte?: string | null; // String
+    not?: string | null; // String
+    notIn?: string[] | null; // [String!]
+    startsWith?: string | null; // String
+  }
+  StringFilter: { // input type
+    contains?: string | null; // String
+    endsWith?: string | null; // String
+    equals?: string | null; // String
+    gt?: string | null; // String
+    gte?: string | null; // String
+    in?: string[] | null; // [String!]
+    lt?: string | null; // String
+    lte?: string | null; // String
+    not?: string | null; // String
+    notIn?: string[] | null; // [String!]
+    startsWith?: string | null; // String
+  }
+  UserWhereInput: { // input type
+    AND?: NexusGenInputs['UserWhereInput'][] | null; // [UserWhereInput!]
+    email?: NexusGenInputs['StringFilter'] | null; // StringFilter
+    id?: NexusGenInputs['IntFilter'] | null; // IntFilter
+    name?: NexusGenInputs['NullableStringFilter'] | null; // NullableStringFilter
+    NOT?: NexusGenInputs['UserWhereInput'][] | null; // [UserWhereInput!]
+    OR?: NexusGenInputs['UserWhereInput'][] | null; // [UserWhereInput!]
+    password?: NexusGenInputs['StringFilter'] | null; // StringFilter
+  }
 }
 
 export interface NexusGenEnums {
 }
 
 export interface NexusGenRootTypes {
+  BatchPayload: photon.BatchPayload;
   Mutation: {};
   Query: {};
+  Subscription: {};
   User: photon.User;
   String: string;
   Int: number;
@@ -37,16 +84,27 @@ export interface NexusGenRootTypes {
 }
 
 export interface NexusGenAllTypes extends NexusGenRootTypes {
+  IntFilter: NexusGenInputs['IntFilter'];
+  NullableStringFilter: NexusGenInputs['NullableStringFilter'];
+  StringFilter: NexusGenInputs['StringFilter'];
+  UserWhereInput: NexusGenInputs['UserWhereInput'];
 }
 
 export interface NexusGenFieldTypes {
+  BatchPayload: { // field return type
+    count: number; // Int!
+  }
   Mutation: { // field return type
     changePassword: NexusGenRootTypes['User']; // User!
     createUser: NexusGenRootTypes['User']; // User!
+    deleteManyUser: NexusGenRootTypes['BatchPayload']; // BatchPayload!
   }
   Query: { // field return type
     filterUser: NexusGenRootTypes['User'][]; // [User!]!
     users: NexusGenRootTypes['User'][]; // [User!]!
+  }
+  Subscription: { // field return type
+    userAdded: NexusGenRootTypes['User']; // User!
   }
   User: { // field return type
     email: string; // String!
@@ -66,6 +124,9 @@ export interface NexusGenArgTypes {
     createUser: { // args
       email: string; // String!
       password: string; // String!
+    }
+    deleteManyUser: { // args
+      where?: NexusGenInputs['UserWhereInput'] | null; // UserWhereInput
     }
   }
   Query: {
@@ -87,9 +148,9 @@ export interface NexusGenAbstractResolveReturnTypes {
 
 export interface NexusGenInheritedFields {}
 
-export type NexusGenObjectNames = "Mutation" | "Query" | "User";
+export type NexusGenObjectNames = "BatchPayload" | "Mutation" | "Query" | "Subscription" | "User";
 
-export type NexusGenInputNames = never;
+export type NexusGenInputNames = "IntFilter" | "NullableStringFilter" | "StringFilter" | "UserWhereInput";
 
 export type NexusGenEnumNames = never;
 

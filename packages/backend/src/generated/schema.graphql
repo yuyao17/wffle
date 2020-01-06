@@ -2,9 +2,39 @@
 ### Do not make changes to this file directly
 
 
+type BatchPayload {
+  count: Int!
+}
+
+input IntFilter {
+  equals: Int
+  gt: Int
+  gte: Int
+  in: [Int!]
+  lt: Int
+  lte: Int
+  not: Int
+  notIn: [Int!]
+}
+
 type Mutation {
   changePassword(currentPassword: String!, email: String!, newPassword: String!): User!
   createUser(email: String!, password: String!): User!
+  deleteManyUser(where: UserWhereInput): BatchPayload!
+}
+
+input NullableStringFilter {
+  contains: String
+  endsWith: String
+  equals: String
+  gt: String
+  gte: String
+  in: [String!]
+  lt: String
+  lte: String
+  not: String
+  notIn: [String!]
+  startsWith: String
 }
 
 type Query {
@@ -12,9 +42,37 @@ type Query {
   users(after: Int, before: Int, first: Int, last: Int, skip: Int): [User!]!
 }
 
+input StringFilter {
+  contains: String
+  endsWith: String
+  equals: String
+  gt: String
+  gte: String
+  in: [String!]
+  lt: String
+  lte: String
+  not: String
+  notIn: [String!]
+  startsWith: String
+}
+
+type Subscription {
+  userAdded: User!
+}
+
 type User {
   email: String!
   id: Int!
   name: String
   password: String!
+}
+
+input UserWhereInput {
+  AND: [UserWhereInput!]
+  email: StringFilter
+  id: IntFilter
+  name: NullableStringFilter
+  NOT: [UserWhereInput!]
+  OR: [UserWhereInput!]
+  password: StringFilter
 }
